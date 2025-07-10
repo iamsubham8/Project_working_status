@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="description" content="Modern e-commerce PWA with offline support">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Icons for different devices -->
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512x512.png">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <title>ShopPWA - Your Modern E-commerce Experience</title>
+</head>
+<body>
+    <!-- Install PWA Banner -->
+    <div id="install-banner" class="install-banner hidden">
+        <div class="install-content">
+            <span class="install-text">Install ShopPWA for a better experience!</span>
+            <div class="install-buttons">
+                <button id="install-btn" class="btn btn-primary">Install</button>
+                <button id="dismiss-btn" class="btn btn-secondary">Maybe later</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>🛍️ ShopPWA</h1>
+                </div>
+                
+                <div class="search-container">
+                    <input type="text" id="search-input" placeholder="Search products..." class="search-input">
+                    <button id="search-btn" class="search-btn">🔍</button>
+                </div>
+                
+                <div class="header-actions">
+                    <button id="notification-btn" class="icon-btn" title="Enable Notifications">
+                        🔔
+                        <span id="notification-status" class="status-indicator"></span>
+                    </button>
+                    <button id="cart-btn" class="icon-btn" title="Shopping Cart">
+                        🛒
+                        <span id="cart-count" class="cart-count">0</span>
+                    </button>
+                    <div id="offline-indicator" class="offline-indicator hidden">
+                        📶 Offline Mode
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container">
+            <!-- Hero Section -->
+            <section class="hero">
+                <div class="hero-content">
+                    <h2>Welcome to the Future of Shopping</h2>
+                    <p>Experience seamless shopping with our Progressive Web App. Works offline, fast, and reliable.</p>
+                    <div class="hero-features">
+                        <span class="feature-tag">🚀 Fast</span>
+                        <span class="feature-tag">📱 Responsive</span>
+                        <span class="feature-tag">⚡ Offline Ready</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Product Categories -->
+            <section class="categories">
+                <h3>Shop by Category</h3>
+                <div class="category-grid">
+                    <div class="category-card" data-category="electronics">
+                        <div class="category-icon">📱</div>
+                        <h4>Electronics</h4>
+                    </div>
+                    <div class="category-card" data-category="clothing">
+                        <div class="category-icon">👕</div>
+                        <h4>Clothing</h4>
+                    </div>
+                    <div class="category-card" data-category="books">
+                        <div class="category-icon">📚</div>
+                        <h4>Books</h4>
+                    </div>
+                    <div class="category-card" data-category="home">
+                        <div class="category-icon">🏠</div>
+                        <h4>Home & Garden</h4>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Products Grid -->
+            <section class="products">
+                <div class="products-header">
+                    <h3>Featured Products</h3>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="electronics">Electronics</button>
+                        <button class="filter-btn" data-filter="clothing">Clothing</button>
+                        <button class="filter-btn" data-filter="books">Books</button>
+                        <button class="filter-btn" data-filter="home">Home</button>
+                    </div>
+                </div>
+                
+                <div id="products-grid" class="products-grid">
+                    <!-- Products will be dynamically loaded here -->
+                </div>
+                
+                <div id="loading-indicator" class="loading-indicator">
+                    <div class="loading-spinner"></div>
+                    <p>Loading amazing products...</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Shopping Cart Sidebar -->
+    <div id="cart-sidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <h3>Shopping Cart</h3>
+            <button id="close-cart" class="close-btn">✕</button>
+        </div>
+        <div id="cart-items" class="cart-items">
+            <!-- Cart items will be dynamically loaded here -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total: <strong id="cart-total">$0.00</strong></span>
+            </div>
+            <button id="checkout-btn" class="btn btn-primary btn-full">
+                Proceed to Checkout
+            </button>
+        </div>
+    </div>
+
+    <!-- Cart Overlay -->
+    <div id="cart-overlay" class="cart-overlay"></div>
+
+    <!-- Notification Permission Modal -->
+    <div id="notification-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Enable Push Notifications</h3>
+            <p>Stay updated with the latest deals, order updates, and exclusive offers!</p>
+            <div class="modal-actions">
+                <button id="enable-notifications" class="btn btn-primary">Enable Notifications</button>
+                <button id="skip-notifications" class="btn btn-secondary">Skip for now</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Overlay -->
+    <div id="modal-overlay" class="modal-overlay hidden"></div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>ShopPWA</h4>
+                    <p>Your modern shopping companion</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Features</h4>
+                    <ul>
+                        <li>Offline Shopping</li>
+                        <li>Push Notifications</li>
+                        <li>Fast & Secure</li>
+                        <li>Mobile Optimized</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li>Help Center</li>
+                        <li>Contact Us</li>
+                        <li>Returns</li>
+                        <li>FAQ</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 ShopPWA. Built with ❤️ as a Progressive Web App.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/app.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/push-notifications.js"></script>
+    <script>
+        // Register Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(registration => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch(registrationError => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
